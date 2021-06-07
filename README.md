@@ -1,13 +1,30 @@
-# Docker for d415/d435 using ROS
+This is a docker container that I'm using as a GUI environment for a ROS1 robot (robotont) 
+with a realsense d435 camera. It's running apriltag detector. PlotJuggler and floxglove-studio
+are included for debugging. 
 
-Connect d415 or d435 to your pc and enter following command in your terminal.
+There's probably some other solution needed when **not** using a proproetary nvidia driver,
+but that's what I have. 
+
+## Setting up
 
 ```
-docker run --rm --net=host --privileged --volume=/dev:/dev -it iory/realsense-ros-docker:kinetic /bin/bash -i -c 'roslaunch realsense2_camera rs_rgbd.launch enable_pointcloud:=true align_depth:=false depth_registered_processing:=true align_depth:=true'
+cd nvidia-docker-ros
+mkdir src
+cd src
+git clone --depth 1 https://github.com/IntelRealSense/realsense-ros.git \
+  && git clone --depth 1 https://github.com/pal-robotics/ddynamic_reconfigure \
+  && git clone --depth 1 https://github.com/AprilRobotics/apriltag \
+  && git clone --depth 1 https://github.com/AprilRobotics/apriltag_ros \
+  && git clone --depth 1 https://github.com/robotont/robotont_msgs \
+  && git clone --depth 1 https://github.com/PlotJuggler/plotjuggler_msgs.git \
+  && git clone --depth 1 https://github.com/facontidavide/PlotJuggler.git \
+  && git clone --depth 1 https://github.com/PlotJuggler/plotjuggler-ros-plugins.git
 ```
 
-If you would like to change ```ROS_MASTER_URI```,
 
-```
-docker run --rm --net=host --privileged --volume=/dev:/dev -it iory/realsense-ros-docker:kinetic /bin/bash -i -c 'rossetmaster TARGET_IP; roslaunch realsense2_camera rs_rgbd.launch enable_pointcloud:=true align_depth:=false depth_registered_processing:=true align_depth:=true'
-```
+## Credits
+Inspired by
+
+https://github.com/iory/docker-ros-realsense    
+https://github.com/pierrekilly/docker-ros-box    
+
