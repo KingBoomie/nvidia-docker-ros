@@ -1,0 +1,35 @@
+version: '3.6'
+
+services:   
+  viz2:
+    image: kris/ros_vis_img
+    container_name: ros_visualizer_2
+#    depends_on:
+#      - ros-master
+    build:
+      context: .
+      network: host
+      args:
+        NVDRIVER: "460.80" # value of $(glxinfo | grep "OpenGL version string" | rev | cut -d" " -f1 | rev)
+    extra_hosts:
+      - "robotont-10:192.168.200.10"
+    environment:
+      - "ROS_MASTER_URI=http://192.168.200.10:11311"
+      - "ROS_HOSTNAME=ros_visualizer"
+      - "DISPLAY"
+      - "QT_X11_NO_MITSHM=1" #fix some QT bugs
+    #share your user to the container in order to access your x11
+    user: 1000:1000 #adapt as needed!
+    privileged: true
+    volumes: 
+      #share your x11 socket and permissions to the container
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /etc/group:/etc/group:ro
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/shadow:/etc/shadow:ro
+      - /etc/sudoers:/etc/sudoers:ro
+      - /etc/sudoers.d:/etc/sudoers.d:ro
+      - /home/kris:/home/kris:rw #share your home with write permissions
+    command: rosrun plotjuggler plotjuggler
+#    command: rqt
+#    command: foxglove-studio
