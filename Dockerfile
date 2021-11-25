@@ -24,6 +24,7 @@ RUN apt -q -qq update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   ros-${ROS_DISTRO}-rgbd-launch \
   ros-${ROS_DISTRO}-image-transport-plugins \
   ros-${ROS_DISTRO}-image-transport \
+  ros-${ROS_DISTRO}-teleop-twist-keyboard \
   qtbase5-dev libqt5svg5-dev libqt5websockets5-dev libqt5opengl5-dev libqt5x11extras5-dev qt5-default \
   libxtst6 xdg-utils
 
@@ -45,9 +46,7 @@ RUN touch /root/.bashrc && \
 #  echo "rossetip\n" >> /root/.bashrc && \
 #  echo "rossetmaster localhost"
 
-
-
-RUN curl -sL -o/var/cache/apt/archives/foxglove-studio-0.10.deb https://github.com/foxglove/studio/releases/download/v0.10.2/foxglove-studio-0.10.2-linux-amd64.deb && sudo dpkg -i /var/cache/apt/archives/foxglove-studio-0.10.deb
+RUN curl -sL -o/var/cache/apt/archives/foxglove-studio.deb https://github.com/foxglove/studio/releases/download/v0.22.1/foxglove-studio-0.22.1-linux-amd64.deb && sudo dpkg -i /var/cache/apt/archives/foxglove-studio.deb
 
 RUN rm -rf /var/lib/apt/lists/*
 
